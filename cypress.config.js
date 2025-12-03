@@ -1,25 +1,28 @@
 const { defineConfig } = require("cypress");
-const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+const {
+  addCucumberPreprocessorPlugin,
+} = require("@badeball/cypress-cucumber-preprocessor");
+
+const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
 module.exports = defineConfig({
   e2e: {
-    async setupNodeEvents(on, config) {
+    specPattern: "cypress/e2e/features/**/*.feature",
 
-      // registra plugin Cucumber
+    async setupNodeEvents(on, config) {
+      // Inicializa o plugin Cucumber
       await addCucumberPreprocessorPlugin(on, config);
 
-      // registra ESBuild Preprocessor
+      // Configura o bundler ESBuild com loader para .feature
       on(
         "file:preprocessor",
-        createBundler()
+        createBundler({
+          plugins: [createEsbuildPlugin(config)],
+        })
       );
 
       return config;
     },
-
-    specPattern: "cypress/e2e/**/*.feature",
-    supportFile: "cypress/support/e2e.js",
-    baseUrl: "https://blog.agibank.com.br"
   },
 });
