@@ -30,12 +30,15 @@
 
         cd cypress-tests-agibank
 
-    -Instalar dependências
+    - Instalar dependências
+
         npm install
 
     - Executar Cypress em modo interativo
+
         npx cypress open
 
     - Executar modo headless (CI)
+
         npx cypress run
 
