@@ -14,7 +14,7 @@
 
 3. Tecnologias
 
-    - Cypress 15+
+    - Cypress 13+
 
     - Cucumber / Gherkin com @badeball/cypress-cucumber-preprocessor
 
@@ -26,6 +26,7 @@
 
 4. Instalação e Execução
     - Clonar o repositório
+    
         git clone https://github.com/naziane/cypress-tests-agibank.git
 
         cd cypress-tests-agibank
