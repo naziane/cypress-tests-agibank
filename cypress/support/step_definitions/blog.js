@@ -1,4 +1,10 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
+
+Before(() => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.visit('https://blog.agibank.com.br');
+});
 
 Given("que estou na página inicial do blog", () => {
   cy.visit("https://blog.agibank.com.br/");
@@ -12,16 +18,27 @@ When("eu clico no botão de pesquisa", () => {
 
 
 When('digito {string} e envio', (termo) => {
-  // Abre o campo de pesquisa
-  cy.get('.ast-search-icon a.slide-search', { timeout: 15000 })
-    .click({ force: true });
+  // 1️⃣ Abre o campo de pesquisa
+  cy.get('.ast-search-icon a.slide-search').click();
 
-  // Digita no input de pesquisa
-  cy.get('input#search-field', { timeout: 15000 })
-    .should('exist')
+  // 2️⃣ Espera o input aparecer no DOM e ficar visível
+  cy.get('input#search-field', { timeout: 10000 })
+    .should('exist')             // elemento existe
+    .should(($input) => {        // elemento visível e focável
+      if ($input.css('visibility') === 'hidden') {
+        $input.css('visibility', 'visible');
+      }
+    })
+    .invoke('attr', 'tabindex', '0') // garante foco
     .focus()
-    .type(`${termo}{enter}`);
+    .as('searchInput');
+
+  // 3️⃣ Digita no input
+  cy.get('@searchInput')
+    .should('exist')             // garante que ainda existe
+    .type(`${termo}{enter}`, { delay: 50 }); // delay ajuda com sites dinâmicos
 });
+
 
 
 Then("devo ver resultados de pesquisa relacionados", () => {
