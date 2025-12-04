@@ -55,7 +55,7 @@ Este projeto possui integração contínua configurada com GitHub Actions para r
 2. O workflow realiza:
 
    * Checkout do repositório
-   * Instalação do Node.js (versão 18.16)
+   * Instalação do Node.js 
    * Instalação das dependências (`npm install`)
    * Instalação e verificação do Cypress
    * Execução dos testes Cypress com Mochawesome

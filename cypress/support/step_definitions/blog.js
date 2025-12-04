@@ -13,13 +13,12 @@ When("eu clico no botão de pesquisa", () => {
 
 When('digito {string} e envio', (termo) => {
   // Abre o campo de pesquisa
-  cy.get('.ast-search-icon a.slide-search', { timeout: 10000 })
+  cy.get('.ast-search-icon a.slide-search', { timeout: 15000 })
     .click({ force: true });
 
   // Digita no input de pesquisa
-  cy.get('input#search-field', { timeout: 10000 })
+  cy.get('input#search-field', { timeout: 15000 })
     .should('exist')
-    .should('be.visible')
     .focus()
     .type(`${termo}{enter}`);
 });

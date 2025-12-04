@@ -21,7 +21,6 @@ module.exports = defineConfig({
       // Inicializa o plugin Cucumber
       await addCucumberPreprocessorPlugin(on, config);
 
-      // Configura o bundler ESBuild com loader para .feature
       on(
         "file:preprocessor",
         createBundler({
@@ -31,5 +30,7 @@ module.exports = defineConfig({
 
       return config;
     },
+    viewportWidth: 1920,
+    viewportHeight: 1080
   },
 });
