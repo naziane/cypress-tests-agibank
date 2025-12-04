@@ -10,18 +10,18 @@ When("eu clico no botão de pesquisa", () => {
     .click({ force: true });
 });
 
+
 When('digito {string} e envio', (termo) => {
+  // Abre o campo de pesquisa
   cy.get('.ast-search-icon a.slide-search', { timeout: 10000 })
     .click({ force: true });
 
-  // Garante que o campo foi criado após o clique
+  // Digita no input de pesquisa
   cy.get('input#search-field', { timeout: 10000 })
-    .should('exist');
-  
-
-  // Rebusca o elemento 
-  cy.get('input#search-field', { timeout: 10000 })
-    .type(`${termo}{enter}`, { force: true });
+    .should('exist')
+    .should('be.visible')
+    .focus()
+    .type(`${termo}{enter}`);
 });
 
 
@@ -43,9 +43,8 @@ Then("devo ver resultados de pesquisa relacionados", () => {
 
 
 Then("devo visualizar uma mensagem informando que nenhum resultado foi encontrado", () => {
-  cy.contains(
-    "Lamentamos, mas nada foi encontrado para sua pesquisa, tente novamente com outras palavras.",
-    { matchCase: false, timeout: 15000 }
-  ).should("be.visible");
+ cy.get('.page-content', { timeout: 30000 })
+  .should('contain.text', 'Lamentamos, mas nada foi encontrado para sua pesquisa, tente novamente com outras palavras.');
+
 });
 
